@@ -44,7 +44,7 @@ public class VerifytxTest extends BaseTestClass {
 	@BeforeClass
 	public void setPreconditions() {
 		logger.info("In the class ---> {}", className);
-		reporter = getReporter("VerifytxTestTest", "Tests verifytx API");
+		reporter = getReporter("Verifytx Test", "Tests verifytx Method of SuperNET API");
 		}	
 	
 
@@ -68,7 +68,6 @@ public class VerifytxTest extends BaseTestClass {
 		// Checking execution flag
 		if (hm.get("ExecuteFlag").trim().equalsIgnoreCase("No"))
 			throw new SkipException("Skipping the test ---->> As per excel entry");
-
 		
 			appURL = globalConfig.getString("VERIFYTX_API_CONFIG");
 
@@ -77,7 +76,6 @@ public class VerifytxTest extends BaseTestClass {
 			
 
 		HashMap<String, String> headerParameters = new HashMap<String, String>();
-
 		
 			
 			headerParameters.put("txid", hm.get("I_txid"));		

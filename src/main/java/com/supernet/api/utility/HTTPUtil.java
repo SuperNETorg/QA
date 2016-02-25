@@ -720,7 +720,7 @@ public class HTTPUtil extends HttpEntityEnclosingRequestBase {
 		HttpClientContext context = HttpClientContext.create();
 		
 		HttpClientConnectionManager connMrg = new BasicHttpClientConnectionManager();
-		HttpRoute route = new HttpRoute(new HttpHost("nml-api-dev.avidelo.com", 3000));
+		HttpRoute route = new HttpRoute(new HttpHost("localhost", 7778));
 		// Request new connection. This can be a long process
 		ConnectionRequest connRequest = connMrg.requestConnection(route, null);
 

@@ -28,8 +28,9 @@ public class orderBookBean {
 
     private String lowask;
 
-    private String exchange;
-
+    private String exchange;  
+    
+   
     public String getTag ()
     {
         return tag;
@@ -175,6 +176,9 @@ public class orderBookBean {
     {
         return "ClassPojo [tag = "+tag+", bids = "+bids+", numasks = "+numasks+", inverted = "+inverted+", timestamp = "+timestamp+", time = "+time+", numbids = "+numbids+", asks = "+asks+", base = "+base+", maxdepth = "+maxdepth+", highbid = "+highbid+", rel = "+rel+", lowask = "+lowask+", exchange = "+exchange+"]";
     }
+
+	
+	
 }
 			
 			
