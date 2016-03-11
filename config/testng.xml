@@ -8,8 +8,10 @@
 			
 			<class name="com.supernet.api.VerifytxTest"></class>
 
-
-			<class name="com.supernet.api.instantdex.OrderBookTest"></class>			
+			<class name="com.supernet.api.instantdex.OrderBookTest"></class>	
+			
+			<class name="com.supernet.api.instantdex.SupportsTest"></class>			
+	
 			
 		</classes>
 	</test>

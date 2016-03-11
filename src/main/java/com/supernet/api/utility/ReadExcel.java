@@ -16,10 +16,12 @@ public class ReadExcel {
 	private Sheet dataSheet = null;
 
 	public ReadExcel(String xlsfile) throws Exception {
+		
 		this(xlsfile, 1);
 	}
 
 	public ReadExcel(String xlsfile, String sheetName) throws Exception {
+		
 		InputStream inp = new FileInputStream(xlsfile);
 		dataSheet = WorkbookFactory.create(inp).getSheet(sheetName);
 
@@ -142,7 +144,7 @@ public class ReadExcel {
 			endCol = dataSheet.getRow(0).getLastCellNum();
 			tabArray = new HashMap[noOfRows - 1];
 			ci = 0;
-			System.out.println("No of rows processing is" + noOfRows);
+			System.out.println("No of rows processing is = " + noOfRows);
 			for (i = 1; i < noOfRows; i++, ci++) {
 				HashMap<String, String> hm = new HashMap<String, String>();
 				for (int j = 0; j < endCol; j++) {

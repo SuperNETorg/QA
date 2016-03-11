@@ -21,17 +21,16 @@ import org.testng.asserts.SoftAssert;
 
 import com.google.common.base.Preconditions;
 import com.supernet.api.BaseTestClass;
-import com.supernet.api.client.instantdex.Bids;
-import com.supernet.api.client.instantdex.orderBookBean;
+import com.supernet.api.client.instantdex.SupportsBean;
 import com.supernet.api.utility.HTTPUtil;
 import com.supernet.api.utility.HelperUtil;
 import com.supernet.api.utility.ReadExcel;
 import com.supernet.api.utility.ReporterUtil;
 
-public class OrderBookTest extends BaseTestClass {
+public class SupportsTest extends BaseTestClass {
 
 	public ReporterUtil reporter;
-	private static final Logger logger = LoggerFactory.getLogger(OrderBookTest.class);
+	private static final Logger logger = LoggerFactory.getLogger(SupportsTest.class);
 
 	String className = this.getClass().getName();
 	private String appURL;
@@ -47,7 +46,7 @@ public class OrderBookTest extends BaseTestClass {
 	@BeforeClass
 	public void setPreconditions() {
 		logger.info("In the class ---", className);
-		reporter = getReporter(" Instadex API - Orderbook method ", "Tests OrderBook method of Instadex API ");
+		reporter = getReporter(" Instadex API - Supports method ", "Tests Supports method of Instadex API ");
 	}
 
 	@DataProvider(name = "orderBookTestData")
@@ -55,7 +54,7 @@ public class OrderBookTest extends BaseTestClass {
 		logger.info("In the method ");
 		ReadExcel re = new ReadExcel(
 				System.getProperty("user.dir") + BaseTestClass.globalConfig.getString("DATASHEET_CONFIG"),
-				"sheetOrderbookTest");
+				"sheetSupports");
 		return re.getTableToHashMapDoubleArray();
 	}
 
@@ -71,9 +70,8 @@ public class OrderBookTest extends BaseTestClass {
 		if (hm.get("ExecuteFlag").trim().equalsIgnoreCase("No"))
 			throw new SkipException("Skipping the test -->> As per excel entry");
 
-		appURL = globalConfig.getString("ORDERBOOK_API_CONFIG") + "?" + "exchange=" + hm.get("I_Exchange") + "&"
-				+ "base=" + hm.get("I_Base") + "&" + "rel=" + hm.get("I_Rel") + "&" + "allfields="
-				+ hm.get("I_Allfields") + "&" + "ignore=" + hm.get("I_Ignore");
+		appURL = globalConfig.getString("SUPPORTS_API_CONFIG") + "?" + "exchange=" + hm.get("I_Exchange") + "&"
+				+ "base=" + hm.get("I_Base") + "&" + "rel=" + hm.get("I_Rel");
 
 		int responseCode = 0;
 		
@@ -152,7 +150,7 @@ public class OrderBookTest extends BaseTestClass {
 		case "200":
 			try {
 				
-				orderBookBean getFieldsResponseBean = testAPIAttribute200Response(filePathOfJsonResponse);	
+				SupportsBean getFieldsResponseBean = testAPIAttribute200Response(filePathOfJsonResponse);	
 				
 				reporter.writeLog("verifying", "Json response", "By parsing");
 				// If error response, Verify error response is same
@@ -164,63 +162,12 @@ public class OrderBookTest extends BaseTestClass {
 				break;
 				}									
 			
-				// Exchange
-				softAssert.assertTrue(getFieldsResponseBean.getExchange().equals(hm.get("I_Exchange")), 
-						"Exchange shuld be "+hm.get("I_Exchange")+"But the Exchange is "+getFieldsResponseBean.getExchange());
+				// Result
+				Assert.assertTrue(getFieldsResponseBean.getResult().equals(hm.get("Result")), 
+						"Result shuld be "+hm.get("Result")+"But the result is "+getFieldsResponseBean.getResult());				
 				
-				// Base
-				softAssert.assertTrue(getFieldsResponseBean.getBase().equals(hm.get("I_Base")), 
-						"Base shuld be "+hm.get("I_Base")+"But the Base is "+getFieldsResponseBean.getBase());
 				
-				//Rel
-				softAssert.assertTrue(getFieldsResponseBean.getRel().equals(hm.get("I_Rel")), 
-						"Rel shuld be "+hm.get("I_Rel")+"But the Rel is "+getFieldsResponseBean.getRel());
-				
-								
-				//Depth
-				softAssert.assertTrue(getFieldsResponseBean.getMaxdepth().equals(hm.get("I_Depth")), 
-						"Depth shuld be "+hm.get("I_Depth")+"But the Depth is "+getFieldsResponseBean.getMaxdepth());				
-				
-				//Bids array should be of length Depth				
-				softAssert.assertTrue(getFieldsResponseBean.getBids().length==Integer.parseInt(hm.get("I_Depth")), 
-						"Bids Length shuld be "+hm.get("I_Depth")+"But the Bids length is "+getFieldsResponseBean.getBids().length);
-				
-				//Asks  array should be of length Depth
-				softAssert.assertTrue(getFieldsResponseBean.getAsks().length==Integer.parseInt(hm.get("I_Depth")), 
-						"Asks shuld be "+hm.get("I_Depth")+"But the Depth is "+getFieldsResponseBean.getAsks().length);
-				
-				//Nubids
-				softAssert.assertTrue(Integer.parseInt(getFieldsResponseBean.getNumbids())==Integer.parseInt(hm.get("I_Depth")), 
-						"numbids shuld be "+hm.get("I_Depth")+"But the numbids  is "+getFieldsResponseBean.getNumbids());
-								
-				//numasks				
-				softAssert.assertTrue(Integer.parseInt(getFieldsResponseBean.getNumasks())==Integer.parseInt(hm.get("I_Depth")), 
-						"numAsks shuld be "+hm.get("I_Depth")+"But the numasks is "+getFieldsResponseBean.getNumasks());
-				
-				//All fields
-				if (Integer.parseInt(hm.get("I_Allfields"))==1){
-					
-				Bids[] bids = getFieldsResponseBean.getBids();
-				
-				//Average price
-				softAssert.assertTrue(bids[0].getAveprice()!=null, "Average price is not displayed");
-				
-				//Cumulative
-				softAssert.assertTrue(bids[0].getCumulative()!=null, "Cumulative is not displayed");
-				
-				//Offerer
-				softAssert.assertTrue(bids[0].getOfferer()!=null, "Offerer is not displayed");
-				
-				//Price
-				softAssert.assertTrue(bids[0].getPrice()!=null, "price is not displayed");
-				
-				//Volume
-				softAssert.assertTrue(bids[0].getVolume()!=null, "Volume is not displayed");
-				
-				}
-			
-
-			     } catch (FileNotFoundException e) {
+				    } catch (FileNotFoundException e) {
 				e.printStackTrace();
 				reporter.writeLog("FAIL", "", "Caught Exception : Response not stored in File");
 				Assert.fail("Caught Exception : Response not stored in File ...");
@@ -247,11 +194,11 @@ public class OrderBookTest extends BaseTestClass {
 	 * @throws IOException
 	 */
 	
-	private static orderBookBean testAPIAttribute200Response(String jsonFileAbsPath)
+	private static SupportsBean testAPIAttribute200Response(String jsonFileAbsPath)
 			throws JsonParseException, JsonMappingException, IOException {
 
 		ObjectMapper objectMapper = new ObjectMapper();
-		orderBookBean response200 = objectMapper.readValue(new File(jsonFileAbsPath), orderBookBean.class);
+		SupportsBean response200 = objectMapper.readValue(new File(jsonFileAbsPath), SupportsBean.class);
 		return response200;
 
 	}

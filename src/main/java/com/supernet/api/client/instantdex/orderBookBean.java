@@ -4,7 +4,7 @@ public class orderBookBean {
 
 	private String tag;
 
-    private String[] bids;
+    private Bids[] bids;
 
     private String numasks;
 
@@ -16,7 +16,7 @@ public class orderBookBean {
 
     private String numbids;
 
-    private String[] asks;
+    private Asks[] asks;
 
     private String base;
 
@@ -28,9 +28,10 @@ public class orderBookBean {
 
     private String lowask;
 
-    private String exchange;  
+    private String exchange;
     
-   
+    private String error;
+
     public String getTag ()
     {
         return tag;
@@ -41,12 +42,12 @@ public class orderBookBean {
         this.tag = tag;
     }
 
-    public String[] getBids ()
+    public Bids[] getBids ()
     {
         return bids;
     }
 
-    public void setBids (String[] bids)
+    public void setBids (Bids[] bids)
     {
         this.bids = bids;
     }
@@ -101,12 +102,12 @@ public class orderBookBean {
         this.numbids = numbids;
     }
 
-    public String[] getAsks ()
+    public Asks[] getAsks ()
     {
         return asks;
     }
 
-    public void setAsks (String[] asks)
+    public void setAsks (Asks[] asks)
     {
         this.asks = asks;
     }
@@ -177,7 +178,13 @@ public class orderBookBean {
         return "ClassPojo [tag = "+tag+", bids = "+bids+", numasks = "+numasks+", inverted = "+inverted+", timestamp = "+timestamp+", time = "+time+", numbids = "+numbids+", asks = "+asks+", base = "+base+", maxdepth = "+maxdepth+", highbid = "+highbid+", rel = "+rel+", lowask = "+lowask+", exchange = "+exchange+"]";
     }
 
-	
+	public String getError() {
+		return error;
+	}
+
+	public void setError(String error) {
+		this.error = error;
+	}
 	
 }
 			
