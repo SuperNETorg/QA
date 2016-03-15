@@ -109,7 +109,7 @@ public class HexAPITest extends BaseTestClass {
 			break;
 		case "UNHEX":
 			if ("Positive".equalsIgnoreCase(hm.get("ScenarioType"))) {
-				// Call the rest API
+				// Call the
 				apiUnhexURL = apiUnhexURL + hm.get("I_Message");
 				System.out.println(apiUnhexURL);
 				Response resp = null;
